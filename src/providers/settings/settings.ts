@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 /**
  * A simple settings/config class for storing key/value pairs with persistence.
@@ -7,14 +8,29 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class Settings {
   private SETTINGS_KEY: string = '_settings';
+  private badge = new BehaviorSubject<number>(0);
 
   settings: any;
 
   _defaults: any;
   _readyPromise: Promise<any>;
 
+
   constructor(public storage: Storage, defaults: any) {
     this._defaults = defaults;
+  }
+  /*
+   * Returns bage observable
+   */
+  getBadge(){
+    return this.badge.asObservable();
+  }
+
+  /*
+   * Increment the badge by 1
+   */
+  incrementBadge(){
+    this.badge.next(this.badge.value+1);
   }
 
   load() {

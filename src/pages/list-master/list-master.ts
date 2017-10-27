@@ -11,9 +11,12 @@ import { Items } from '../../providers/providers';
 })
 export class ListMasterPage {
   currentItems: Item[];
+  currentSkipCount=0;
+  moreItemsAvailable=true;
 
   constructor(public navCtrl: NavController, public items: Items, public modalCtrl: ModalController) {
-    this.currentItems = this.items.query();
+    //this.currentItems = this.items.query();
+    this.loadItems();
   }
 
   /**
@@ -51,4 +54,33 @@ export class ListMasterPage {
       item: item
     });
   }
+
+  /**
+   * load items using the current skip count
+   */
+  loadItems(){
+    return this.items.getBySkip(this.currentSkipCount).then(response=>{
+      this.currentItems = this.currentItems || [];
+      this.currentItems = this.currentItems.concat(response['results']);
+      this.currentSkipCount = response['nextSkipCount'];
+    });
+  }
+
+  /**
+   * Event function to be called on scroll to load more items
+   */
+  doInfinite(infiniteScroll){
+    if(this.currentSkipCount < 0) {
+      infiniteScroll.complete();
+      return;
+    }
+
+    // To Show Loader for three seconds 
+    setTimeout(()=>{
+      this.loadItems().then(()=>{
+        infiniteScroll.complete();
+      });
+    }, 3000);
+  }
+
 }

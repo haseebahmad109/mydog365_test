@@ -8,12 +8,12 @@
 
 
 <ion-content>
-  <form (submit)="doLogin()">
+  <form #form="ngForm" (submit)="form.valid && doLogin()" novalidate>
     <ion-list>
 
       <ion-item>
         <ion-label fixed>{{ 'EMAIL' | translate }}</ion-label>
-        <ion-input type="email" [(ngModel)]="account.email" name="email"></ion-input>
+        <ion-input required type="email" [(ngModel)]="account.email" name="email"></ion-input>
       </ion-item>
 
       <!--
@@ -27,11 +27,11 @@
 
       <ion-item>
         <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+        <ion-input type="password" required  [(ngModel)]="account.password" name="password"></ion-input>
       </ion-item>
 
       <div padding>
-        <button ion-button color="primary" block>{{ 'LOGIN_BUTTON' | translate }}</button>
+        <button [disabled]="!form.valid" ion-button color="primary" block>{{ 'LOGIN_BUTTON' | translate }}</button>
       </div>
 
     </ion-list>
