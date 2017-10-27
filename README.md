@@ -3,6 +3,10 @@
 ## Run app in browser
 
 ```bash
+npm install -g ionic
+```
+
+```bash
 git clone https://github.com/haseebahmad109/mydog365_test
 ```
 
