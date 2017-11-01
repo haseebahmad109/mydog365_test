@@ -25,8 +25,8 @@ export class SearchPage {
 
   ionViewDidLoad(){
     // No Need of debounce here as ion input provides an input for that
-    this.searchTerm.distinctUntilChanged().subscribe((_searchTerm:string) => {
-      this.getItems(_searchTerm); 
+    this.searchTerm.distinctUntilChanged().subscribe((searchQuery:string) => {
+      this.getItems(searchQuery); 
     });
   }
 

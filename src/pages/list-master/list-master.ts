@@ -11,7 +11,7 @@ import { Items } from '../../providers/providers';
 })
 export class ListMasterPage {
   currentItems: Item[];
-  currentSkipCount=0;
+  currentOffset=0;
   moreItemsAvailable=true;
 
   constructor(public navCtrl: NavController, public items: Items, public modalCtrl: ModalController) {
@@ -59,10 +59,10 @@ export class ListMasterPage {
    * load items using the current skip count
    */
   loadItems(){
-    return this.items.getBySkip(this.currentSkipCount).then(response=>{
+    return this.items.getBySkip(this.currentOffset).then(response=>{
       this.currentItems = this.currentItems || [];
       this.currentItems = this.currentItems.concat(response['results']);
-      this.currentSkipCount = response['nextSkipCount'];
+      this.currentOffset = response['currentOffset'];
     });
   }
 
@@ -70,7 +70,7 @@ export class ListMasterPage {
    * Event function to be called on scroll to load more items
    */
   doInfinite(infiniteScroll){
-    if(this.currentSkipCount < 0) {
+    if(this.currentOffset< 0) {
       infiniteScroll.complete();
       return;
     }

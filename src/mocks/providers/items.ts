@@ -310,7 +310,7 @@ export class Items {
       let pageEndOffset = skipCount+pageSize;
       resolve({
         results: this.items.slice(skipCount, pageEndOffset),
-        nextSkipCount: this.items.length <= pageEndOffset ? -1:pageEndOffset
+        currentOffset: this.items.length <= pageEndOffset ? -1:pageEndOffset
       });
     });
   }

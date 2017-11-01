@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 
 import { User } from '../../providers/providers';
@@ -22,19 +23,32 @@ export class LoginPage {
   // Our translated text strings
   private loginErrorString: string;
 
+  // Login From
+  private loginForm: FormGroup;
+
   constructor(public navCtrl: NavController,
     public user: User,
     public toastCtrl: ToastController,
+    private formBuilder: FormBuilder,
     public translateService: TranslateService) {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
-    })
+    });
+    this.initializeLoginForm(); 
+  }
+
+  // To initialize the login form with the fields
+  initializeLoginForm(){
+    this.loginForm = this.formBuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+    });
   }
 
   // Attempt to login in through our User service
   doLogin() {
-    this.user.login(this.account).subscribe((resp) => {
+    this.user.login(this.loginForm.value).subscribe((resp) => {
       this.navCtrl.push(MainPage);
     }, (err) => {
       this.navCtrl.push(MainPage);
