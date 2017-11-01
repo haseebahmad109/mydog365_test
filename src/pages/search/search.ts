@@ -24,6 +24,9 @@ export class SearchPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public items: Items) { }
 
   ionViewDidLoad(){
+  }
+
+  ionViewDidEnter(){
     // No Need of debounce here as ion input provides an input for that
     this.searchTerm.distinctUntilChanged().subscribe((searchQuery:string) => {
       this.getItems(searchQuery); 
